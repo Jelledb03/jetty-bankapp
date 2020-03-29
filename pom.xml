@@ -53,7 +53,7 @@
                         <archive>
                             <manifest>
                                 <addClasspath>true</addClasspath>
-                                <mainClass>BankMain</mainClass>
+                                <mainClass>BankClient</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
@@ -72,7 +72,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>BankMain</mainClass>
+                                <mainClass>BankClient</mainClass>
                             </manifest>
                         </archive>
                         <descriptorRefs>
