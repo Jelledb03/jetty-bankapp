@@ -14,8 +14,6 @@ public class BankClient {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to the Person Info Command Line Editor.");
-        System.out.println("(PICLER for short.)");
         System.out.println("Do you want to get or set a person's info?");
         System.out.println("(Type 'get' or 'set' now.)");
         String getOrSet = scanner.nextLine();
