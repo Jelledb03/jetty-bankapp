@@ -10,68 +10,66 @@ import java.util.Scanner;
 
 public class BankClient {
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
+        String input = "";
+        while (!input.equals("Exit")) {
+            System.out.println("Do you want to get or alter a person's info?");
+            System.out.println("(Type 'get' or 'alter' now (Exit to close program)");
+            input = scanner.nextLine();
+            if ("get".equalsIgnoreCase(input)) {
+                System.out.println("Whose info do you want to get?");
+                System.out.println("(Type a person's name now.)");
+                String name = scanner.nextLine();
 
-        System.out.println("Do you want to get or set a person's info?");
-        System.out.println("(Type 'get' or 'set' now.)");
-        String getOrSet = scanner.nextLine();
-        if("get".equalsIgnoreCase(getOrSet)){
-            System.out.println("Whose info do you want to get?");
-            System.out.println("(Type a person's name now.)");
-            String name = scanner.nextLine();
+                String jsonString = getPersonData(name);
+                JSONObject jsonObject = null;
+                try {
+                    assert jsonString != null;
+                    jsonObject = new JSONObject(jsonString);
+                    String lastName = jsonObject.getString("lastName");
+                    System.out.println(name + " has last name " + lastName);
 
-            String jsonString = getPersonData(name);
-            JSONObject jsonObject = null;
-            try {
-                assert jsonString != null;
-                jsonObject = new JSONObject(jsonString);
-                String lastName = jsonObject.getString("lastName");
-                System.out.println(name + " has last name " + lastName);
+                    String address = jsonObject.getString("address");
+                    System.out.println(name + " lives at " + address);
 
-                String address = jsonObject.getString("address");
-                System.out.println(name + " lives at " + address);
+                    int balance = jsonObject.getInt("balance");
+                    System.out.println(name + " has " + balance + " euro in his account");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if ("alter".equalsIgnoreCase(input)) {
+                System.out.println("Whose info do you want to set?");
+                System.out.println("(Type a person's name now.)");
+                String name = scanner.nextLine();
 
-                int balance = jsonObject.getInt("balance");
-                System.out.println(name + " has " + balance + " euro in his account");
-            } catch (JSONException e) {
-                e.printStackTrace();
+                System.out.println("When was " + name + " born?");
+                System.out.println("(Type a year now.)");
+                String birthYear = scanner.nextLine();
+
+                System.out.println("Can you tell me about " + name + "?");
+                System.out.println("(Type a sentence now.)");
+                String about = scanner.nextLine();
+
+                setPersonData(name, birthYear, about);
             }
-        }
-        else if("set".equalsIgnoreCase(getOrSet)){
-            System.out.println("Whose info do you want to set?");
-            System.out.println("(Type a person's name now.)");
-            String name = scanner.nextLine();
-
-            System.out.println("When was " + name + " born?");
-            System.out.println("(Type a year now.)");
-            String birthYear = scanner.nextLine();
-
-            System.out.println("Can you tell me about " + name + "?");
-            System.out.println("(Type a sentence now.)");
-            String about = scanner.nextLine();
-
-            setPersonData(name, birthYear, about);
         }
 
         scanner.close();
-
-        System.out.println("Thanks for using PICLER.");
-
     }
 
-    public static String getPersonData(String name) throws IOException{
+    public static String getPersonData(String name) throws IOException {
 
         HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:7070/bank/" + name).openConnection();
 
         connection.setRequestMethod("GET");
 
         int responseCode = connection.getResponseCode();
-        if(responseCode == 200){
+        if (responseCode == 200) {
             StringBuilder response = new StringBuilder();
             Scanner scanner = new Scanner(connection.getInputStream());
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 response.append(scanner.nextLine());
                 response.append("\n");
             }
@@ -79,13 +77,12 @@ public class BankClient {
 
             return response.toString();
         }
-
         // an error happened
         return null;
     }
 
-    public static void setPersonData(String name, String birthYear, String about) throws IOException{
-        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:8000/restwebapp_war_exploded/bank/" + name).openConnection();
+    public static void setPersonData(String name, String birthYear, String about) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:7070/bank/" + name).openConnection();
 
         connection.setRequestMethod("POST");
 
@@ -99,10 +96,9 @@ public class BankClient {
         wr.flush();
 
         int responseCode = connection.getResponseCode();
-        if(responseCode == 200){
+        if (responseCode == 200) {
             System.out.println("POST was successful.");
-        }
-        else {
+        } else {
             System.out.println("POST failed.");
         }
     }
