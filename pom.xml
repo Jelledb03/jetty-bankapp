@@ -53,8 +53,9 @@
                         <archive>
                             <manifest>
                                 <addClasspath>true</addClasspath>
-                                <mainClass>BankClient</mainClass>
+                                <mainClass>BankMain</mainClass>
                             </manifest>
+                            <finalName>Jetty-BankServlet</finalName>
                         </archive>
                     </configuration>
                     <executions>
@@ -72,12 +73,14 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>BankClient</mainClass>
+                                <mainClass>BankMain</mainClass>
                             </manifest>
                         </archive>
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
+                        <finalName>Jetty-BankServlet</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
                     </configuration>
                 </plugin>
 
