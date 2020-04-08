@@ -39,11 +39,11 @@ public class BankServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String name = request.getParameter("name");
         String firstName = request.getParameter("firstName");
-        String address = request.getParameter("Address");
+        String lastName = request.getParameter("lastName");
+        String address = request.getParameter("address");
         int balance = Integer.parseInt(request.getParameter("balance"));
 
-        BankStorage.getInstance().putPerson(new BankAccount(name, firstName, address, balance));
+        BankStorage.getInstance().putPerson(new BankAccount(firstName, lastName, address, balance));
     }
 }

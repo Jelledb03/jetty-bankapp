@@ -42,20 +42,23 @@ public class BankClient {
             } else if ("alter".equalsIgnoreCase(input)) {
                 System.out.println("Whose info do you want to set?");
                 System.out.println("(Type a person's name now.)");
-                String name = scanner.nextLine();
+                String firstName = scanner.nextLine();
 
-                System.out.println("When was " + name + " born?");
-                System.out.println("(Type a year now.)");
-                String birthYear = scanner.nextLine();
+                System.out.println("What is " + firstName + "'s last name?");
+                System.out.println("(Type a person's last name now.)");
+                String lastName = scanner.nextLine();
 
-                System.out.println("Can you tell me about " + name + "?");
-                System.out.println("(Type a sentence now.)");
-                String about = scanner.nextLine();
+                System.out.println("Can you tell me about " + firstName + " address?");
+                System.out.println("(Type an address now.)");
+                String address = scanner.nextLine();
 
-                setPersonData(name, birthYear, about);
+                System.out.println("Can you tell me about " + firstName + " balance?");
+                System.out.println("(Type a balance now.)");
+                int balance = scanner.nextInt();
+
+                setPersonData(firstName, lastName, address ,balance);
             }
         }
-
         scanner.close();
     }
 
@@ -81,14 +84,16 @@ public class BankClient {
         return null;
     }
 
-    public static void setPersonData(String name, String birthYear, String about) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:7070/bank/" + name).openConnection();
+    public static void setPersonData(String firstName, String lastName, String address, int balance) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:7070/bank/" + firstName).openConnection();
 
         connection.setRequestMethod("POST");
 
-        String postData = "name=" + URLEncoder.encode(name);
-        postData += "&about=" + URLEncoder.encode(about);
-        postData += "&birthYear=" + birthYear;
+        //Nog aanpassen naar de juiste variabele and so on
+        String postData = "firstName=" + URLEncoder.encode(firstName);
+        postData += "&lastName=" + URLEncoder.encode(lastName);
+        postData += "&address=" + address;
+        postData += "&balance=" + balance;
 
         connection.setDoOutput(true);
         OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());

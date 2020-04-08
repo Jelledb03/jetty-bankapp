@@ -55,7 +55,6 @@
                                 <addClasspath>true</addClasspath>
                                 <mainClass>BankClient</mainClass>
                             </manifest>
-                            <finalName>Jetty-BankServlet</finalName>
                         </archive>
                     </configuration>
                     <executions>
